@@ -25,7 +25,7 @@ SECRET_KEY = 'c1)e6dlhwob(nb#yx=p*vblgcjyz5_c4a9x0b)n38zlpn!5u59'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['f8a279d9.ngrok.io', 'botvk-ba1e538c.localhost.run']
+ALLOWED_HOSTS = ['f8a279d9.ngrok.io', 'nekobot-492fcdeb.localhost.run']
 
 
 # Application definition

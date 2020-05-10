@@ -6,6 +6,8 @@ cur = conn.cursor()
 # query = """
 # DROP TABLE answer
 # """
+# cur.execute(query)
+# conn.commit()
 
 # query = """
 # CREATE TABLE answer(
@@ -19,19 +21,31 @@ cur = conn.cursor()
 
 query = """
 INSERT INTO answer(msg, answ) VALUES
-("commands", "Вот мои команды: Привет, Админ, Как дела?, commands"),
-("Привет", "Здраствуйте, хозяин!"),
-("привет", "Здраствуйте, хозяин!"),
+("commands", "Вот мои команды: Привет, Админ, Как дела?, Пока, commands"),
+("Привет", "Здравствуйте, хозяин!"),
+("привет", "Здравствуйте, хозяин!"),
+("Привет!", "Здравствуйте, хозяин!"),
+("привет!", "Здравствуйте, хозяин!"),
 ("Админ", "Гл. Администратор, ня - https://vk.com/manestorm"),
 ("админ", "Гл. Администратор, ня - https://vk.com/manestorm"),
 ("Как дела?", "Всё было ужасно, пока не пришли Вы, хозяин!"),
 ("Как дела", "Всё было ужасно, пока не пришли Вы, хозяин!"),
 ("как дела?", "Всё было ужасно, пока не пришли Вы, хозяин!"),
-("как дела", "Всё было ужасно, пока не пришли Вы, хозяин!")
+("как дела", "Всё было ужасно, пока не пришли Вы, хозяин!"),
+("Пока", "До свидания, хозяин!"),
+("пока", "До свидания, хозяин!"),
+("Пока!", "До свидания, хозяин!"),
+("пока!", "До свидания, хозяин!")
 """
-
 cur.execute(query)
 conn.commit()
+
+# query = """
+# INSERT INTO answer(msg, answ) VALUES
+
+# """
+# cur.execute(query)
+# conn.commit()
 
 def get(table_name, cols = "*"):
     db = sqlite3.connect('db.sqlite')
@@ -62,9 +76,41 @@ def insert(table_name, cols, data):
     """.format(table_name, ",".join(cols), "','".join(data))
 
     cur.execute(query)
-
     db.commit
     db.close
-print(get("answer"))
 
-# conn.close()
+print(get("answer"))
+# ------------------------------------------------
+# db = sqlite3.connect('db.sqlite')
+# cur = db.cursor()
+
+# query = """
+#     CREATE TABLE groups(
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     groupname TEXT
+# )
+# """
+
+# cur.execute(query)
+# db.commit
+# db.close
+# # ------------------------------------------------
+# db = sqlite3.connect('db.sqlite')
+# cur = db.cursor()
+
+# query = """
+#     CREATE TABLE users(
+#     id INTEGER PRIMARY KEY AUTOINCREMENT,
+#     groupId TEXT
+# )
+# """
+
+# cur.execute(query)
+# db.commit
+# db.close
+
+insert("groups", ["groupName"], ["Создатель"]),
+insert("groups", ["groupName"], ["Модератор"]),
+insert("groups", ["groupName"], ["Хозяин"])
+
+print(get("group"))

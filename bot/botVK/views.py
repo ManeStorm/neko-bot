@@ -16,7 +16,7 @@ def bot(request):
     print(body)
 
     if body == { "type": "confirmation", "group_id": 194135900 }:
-        return HttpResponse("d6f88a56")
+        return HttpResponse("cce81b0c")
 
     if body["type"] == "message_new":
 
@@ -37,7 +37,7 @@ def bot(request):
                 answ = i["answ"]
                 break
             else:
-                answ = "Простите, но я не знаю такой команды, хозяин, используйте 'commands' или же научите меня, используя команду 'teach' (команда ? ответ), ня"
+                answ = "Простите, но я не знаю такой команды, хозяин, используйте 'commands' |или же научите меня, используя команду 'teach', вот пример: команда ? ответ|, ня (teach НЕ РАБОТАЕТ)"
 
             
         # if body["object"]["message"]["text"] == "Привет":
