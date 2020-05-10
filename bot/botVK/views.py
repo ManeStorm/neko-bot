@@ -21,44 +21,51 @@ def bot(request):
     if body["type"] == "message_new":
 
         msg = body["object"]["message"]["text"]
+        payload = body["object"]["message"]["payload"]
         userID = body["object"]["message"]["from_id"]
+        userInfo = vkAPI.users.get(user_ids = userID, v=5.103)[0]
         answ = ""
         attach = ""
 
-        if msg[:5] == "teach":
-            pos = msg.find("?")
-            newMsg = msg[6:pos].replace(" ", "")
-            newAnsw = msg[pos+1:]
-            database.insert("answer", ["msg","answ"], [newMsg, newAnsw])
-            answ = "Я запомнила вашу команду '{0}', хозяин".format(newMsg)
+        if payload == """{"command":"start"}""":
+            keyboardStart(request, userID)
 
-        for i in database.get("answer"):
-            if msg == i["msg"]:
-                answ = i["answ"]
-                break
-            else:
-                answ = "Простите, но я не знаю такой команды, хозяин, используйте 'commands' |или же научите меня, используя команду 'teach', вот пример: команда ? ответ|, ня (teach НЕ РАБОТАЕТ)"
+        # if msg[:5] == "teach":
+        #     pos = msg.find("?")
+        #     newMsg = msg[6:pos].replace(" ", "")
+        #     newAnsw = msg[pos+1:]
+        #     database.insert("answer", ["msg","answ"], [newMsg, newAnsw])
+        #     answ = "Я запомнила вашу команду '{0}', хозяин".format(newMsg)
 
-            
-        # if body["object"]["message"]["text"] == "Привет":
-        #     msg = "Добро пожаловать! Чего желаете, хозяин?"
-        #     vkAPI.messages.send(user_id = userID, message = msg, random_id = random.randint(1, 99999999999999999), v=5.103)
-
-        # elif body["object"]["message"]["text"] == "Админ":
-        #     msg = "Гл. Администратор - https://vk.com/manestorm"
-        #     vkAPI.messages.send(user_id = userID, message = msg, random_id = random.randint(1, 99999999999999999), v=5.103)
-
-        # elif body["object"]["message"]["text"] == "Как дела?":
-        #     msg = "Всё за~мур~чательно!"
-        #     vkAPI.messages.send(user_id = userID, message = msg, random_id = random.randint(1, 99999999999999999), v=5.103)
-
-        # elif body["object"]["message"]["text"] == "commands":
-        #     msg = "Вот мои команды: Привет, Админ, Как дела?, commands"
-        #     vkAPI.messages.send(user_id = userID, message = msg, random_id = random.randint(1, 99999999999999999), v=5.103)
+        # for i in database.get("answer"):
+        #     if msg == i["msg"]:
+        #         answ = i["answ"]
+        #         break
+        #     else:
+        #         answ = "Простите, но я не знаю такой команды, хозяин, используйте 'commands' |или же научите меня, используя команду 'teach', вот пример: команда ? ответ|, ня (teach НЕ РАБОТАЕТ)"
 
         sendAnswer(userID, answ, attach)
 
     return HttpResponse("ok")
 
-def sendAnswer(userID, answ = "", attach = ""):
-	vkAPI.messages.send(user_id = userID, message = answ, attachment=attach, random_id = random.randint(1, 99999999999999999), v=5.103)
+def sendAnswer(userID, answ = "", attach = "", keyboard = ""):
+	vkAPI.messages.send(user_id = userID, message = answ, attachment=attach, keyboard = keyboard, random_id = random.randint(1, 99999999999999999), v=5.103)
+
+def keyboardStart(request, userID):
+    answ = "Здравствуйте, хозяин! Кто Вы для моего создателя?"
+    keyboard = json.dumps({
+        "one_time": True,
+
+        "buttons":[[
+            {
+                "action": {
+                    "type":"text",
+                    "label":"Создатель",
+                    "payload": """{"command":creator"}"""
+                },
+                "color":"negative"
+            }
+        ]]
+    })
+
+    sendAnswer(userID, answ, keyboard = keyboard)

@@ -79,7 +79,7 @@ def insert(table_name, cols, data):
     db.commit
     db.close
 
-print(get("answer"))
+# print(get("answer"))
 # ------------------------------------------------
 # db = sqlite3.connect('db.sqlite')
 # cur = db.cursor()
@@ -109,8 +109,8 @@ print(get("answer"))
 # db.commit
 # db.close
 
-insert("groups", ["groupName"], ["Создатель"]),
-insert("groups", ["groupName"], ["Модератор"]),
-insert("groups", ["groupName"], ["Хозяин"])
+insert("groups", ["groupname"], ["Создатель"]),
+insert("groups", ["groupname"], ["Модератор"]),
+insert("groups", ["groupname"], ["Хозяин"])
 
-print(get("group"))
+print(get("groups", ["groupname"]))
