@@ -7,7 +7,7 @@ import random
 import sqlite3
 import database
 
-session = vk.Session(access_token="5dba33399e121aa9b74f8e574ee0cd310f6a87451dcdc4581e7822c1fe18fe6c9a3f97d8f2f83bca4ecff")
+session = vk.Session(access_token="")
 vkAPI = vk.API(session)
 
 @csrf_exempt
